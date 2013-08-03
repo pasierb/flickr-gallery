@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="author" content="Michal Pasierbski">
+    <link rel="stylesheet" media="screen" href="css/style.css" />
+    <title>Pure js Flickr based gallery</title>
+  </head>
+  <body>
+    <div id="loading" class="hidden"></div>
+    <div class="header-wrapper">
+      <div class="container">
+        <div class="header">
+          <nav>
+            <ul>
+              <li><a href="#searchPage" class="fg-navlink">Search</a></li>
+              <li><a href="#galleryPage" class="fg-navlink">Show Gallery!</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+
+    <div class="main-wrapper">
+
+      <div class="container">
+        <div id="searchPage" class="fg-page card">
+          <section>
+            <h1>Query Flickr for cool images</h1>
+            <form action="flickr" name="searchForm">
+              <input type="text" id="searchForm[query]" name="searchForm[query]" placeholder="Enter query string, or leave blank for recent." autofocus="autofocus"/>
+              <button type="submit">Go!</button>
+            </form>
+
+            <aside>
+              <div id="galleryPreview"></div>
+            </aside>
+            <div id="searchResults"></div>
+            <div class="center"><button id="searchMore" class="hidden">more...</button></div>
+          </section>
+        </div>
+
+        <div id="galleryPage" class="fg-page card">
+          <section>
+            <h1>Your gallery</h1>
+            <div class="gallery-wrapper">
+              <div id="galleryStatus" class="center"></div>
+
+              <div id="galleryImages"></div>
+
+              <a class="btn-prev" id="galleryPrev">&lt;</a>
+              <a class="btn-next" id="galleryNext">&gt;</a>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <!-- Leaving this as it is for sake of readability, should be combined into one file! -->
+    <script type="text/javascript" src="js/fg.core.js"></script>
+    <script type="text/javascript" src="js/fg.navigator.js"></script>
+    <script type="text/javascript" src="js/fg.search.js"></script>
+    <script type="text/javascript" src="js/fg.gallery.js"></script>
+    <script type="text/javascript" src="js/fg.flickrApi.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+  </body>
+</html>
