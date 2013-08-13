@@ -6,13 +6,17 @@ window.onload = function () {
     navLinkClass: "fg-navlink",
     routes: {
       "#searchPage": "searchPage",
-      "#galleryPage": ["galleryPage", function (page) {
-        if (FG.gallery.options.images.length === 0) {
-          alert('Add some images to gallery first!');
-          this.goTo("#searchPage");
-          return;
+      "#galleryPage": ["galleryPage", {
+        beforeFilter: function () {
+          if (FG.gallery.options.images.length === 0) {
+            alert('Add some images to gallery first!');
+            return false;
+          }
+          return true;
+        },
+        onPage: function () {
+          FG.gallery.show();
         }
-        FG.gallery.show();
       }]
     }
   });
