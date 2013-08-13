@@ -15,7 +15,7 @@ FG.flickrApi = {
   imageUrl: function (params) {
     return "http://farm"+params.farm+".static.flickr.com/"+params.server+"/"+params.id+"_"+params.secret+".jpg";
   }
-}
+};
 
 //Flickr jsonp callback
 function jsonFlickrApi (data) {
