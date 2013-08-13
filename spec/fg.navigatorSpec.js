@@ -52,7 +52,7 @@ describe("FG.navigator", function () {
       expect(FG.core.hasClass(link2,"current")).toEqual(false);
     });
 
-    it("should trigger callback", function () {
+    it("should trigger onPage callback", function () {
       var triggered = false;
 
       FG.navigator.init({
@@ -61,14 +61,58 @@ describe("FG.navigator", function () {
         navLinkClass: "fg-nav-link",
         routes: {
           "#page1": "page1",
-          "#page2": ["page2", function () {
-            triggered = true;
+          "#page2": ["page2", {
+            onPage: function () {
+              triggered = true;
+            }
           }]
         }
       });
 
       FG.navigator.goTo("#page2");
       expect(triggered).toEqual(true);
+    });
+
+    it("should stop if beforeFilter returns false", function () {
+      FG.navigator.init({
+        pageClass: "fg-page",
+        activePageClass: "active",
+        navLinkClass: "fg-nav-link",
+        routes: {
+          "#page1": "page1",
+          "#page2": ["page2", {
+            beforeFilter: function () {
+              return false;
+            }
+          }]
+        }
+      });
+
+      FG.navigator.goTo("#page1");
+      expect(FG.navigator.options.current).toEqual("page1");
+      FG.navigator.goTo("#page2");
+      expect(FG.navigator.options.current).toEqual("page1");
+    });
+
+    it("should continue if beforeFilter returns true", function () {
+      FG.navigator.init({
+        pageClass: "fg-page",
+        activePageClass: "active",
+        navLinkClass: "fg-nav-link",
+        routes: {
+          "#page1": "page1",
+          "#page2": ["page2", {
+            beforeFilter: function () {
+              return true;
+            }
+          }]
+        }
+      });
+
+      FG.navigator.goTo("#page1");
+      expect(FG.navigator.options.current).toEqual("page1");
+      FG.navigator.goTo("#page2");
+      expect(FG.navigator.options.current).toEqual("page2");
     });
   });
 });

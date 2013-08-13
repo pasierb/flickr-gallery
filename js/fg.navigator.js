@@ -19,12 +19,30 @@ FG.navigator = {
   },
 
   goTo: function (pageId) {
-    var i, page, callback, navLink;
+    var i, page, options, navLink;
     var target = this.options.routes[pageId];
 
     if (target instanceof Array) {
-      callback = target[1];
+      options = target[1];
       target = target[0];
+    }
+
+    if (options && typeof options['beforeFilter'] === 'function') {
+      if (!options['beforeFilter'].apply(this)) return;
+    }
+
+
+    //set current page
+    for (i=0; i<this.options.pages.length; i++) {
+      page = this.options.pages[i];
+
+      FG.core.removeClass(page, this.options.activePageClass);
+      if (page.id === target) {
+        FG.core.addClass(page, this.options.activePageClass);
+        this.options.current = page.id;
+        window.scrollTo(0,0);
+        options && typeof options['onPage'] === 'function' && options['onPage'].apply(this, [page])
+      }
     }
 
     //set current nav link
@@ -34,18 +52,6 @@ FG.navigator = {
       FG.core.removeClass(navLink, "current");
       if (navLink.href.match(new RegExp(pageId+"$"))) {
         FG.core.addClass(navLink, "current");
-      }
-    }
-
-    //set current page
-    for (i=0; i<this.options.pages.length; i++) {
-      page = this.options.pages[i];
-
-      FG.core.removeClass(page, this.options.activePageClass);
-      if (page.id === target) {
-        FG.core.addClass(page, this.options.activePageClass);
-        window.scrollTo(0,0);
-        callback && callback.apply(this,[page]);
       }
     }
   }
